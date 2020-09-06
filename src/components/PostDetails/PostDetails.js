@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,7 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { IconButton, Container, Grid} from '@material-ui/core';
+import { IconButton, Container, Grid } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import Comments from '../Comments/Comments';
@@ -36,11 +36,11 @@ const useStyles = makeStyles({
 });
 
 const PostDetails = () => {
-    let { id } = useParams()
-    
+    let { id } = useParams() //from App.js router
+
     //
     let user = parseInt(id);
-    if(user<1 || user>100){
+    if (user < 1 || user > 100) {
         document.location.href = "/NotFound";
     }
     //console.log("details of ", id,user)
@@ -76,30 +76,30 @@ const PostDetails = () => {
     }, [id])
 
     const classes = useStyles();
-    const {title, body } = post;
+    const { title, body } = post;
 
-    const nextClick=(clickedId)=>{
-        if(clickedId<100){
-            setNextId(clickedId+1);
-            id=clickedId+1;
-        }else{
+    const nextClick = (clickedId) => {
+        if (clickedId < 100) {
+            setNextId(clickedId + 1);
+            id = clickedId + 1;
+        } else {
             setNextId(1)
         }
     }
-    const previousClick=(clickedId)=>{
-        if(clickedId>1){
-            setNextId(clickedId-1);
-            id=clickedId-1;
-        }else{
+    const previousClick = (clickedId) => {
+        if (clickedId > 1) {
+            setNextId(clickedId - 1);
+            id = clickedId - 1;
+        } else {
             setNextId(100)
         }
     }
-    
+
     //console.log("nextid ", nextId, comments.length, images.length);
 
     return (
         <div>
-        
+
             <Link to={`/post/${nextId}`}>
                 <div style={{ display: 'inline', float: 'left' }}>
                     <Button onClick={() => previousClick(nextId)}><ArrowBackRoundedIcon /></Button>
@@ -114,7 +114,9 @@ const PostDetails = () => {
             <Container>
                 <div className={classes.root}>
                     <Grid container spacing={3}>
+                        {/* showing details and comments */}
                         <Grid item xs={12}>
+                            {/* this card for showing details only */}
                             <Card className={classes.root, classes.pos}>
                                 <CardContent>
                                     <img src="" alt="" />
@@ -143,14 +145,15 @@ const PostDetails = () => {
 
                                 </CardActions>
                             </Card>
-                                {
-                                    comments.length>0?<Comments comments={comments} images={images}></Comments> : <h1>Loading....</h1>
-                                }
+                            {/* showing comments */}
+                            {
+                                comments.length > 0 ? <Comments comments={comments} images={images}></Comments> : <h1>Loading....</h1>
+                            }
                         </Grid>
                     </Grid>
                 </div>
             </Container>
-            
+
         </div>
     );
 };

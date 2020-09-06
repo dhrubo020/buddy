@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 function App() {
 
   const [allPost, setAllPost] = useState([])
-  const [images, setImages] = useState([])
+  const [images, setImages] = useState([]) // setting random image
 
   useEffect(() => {
     const url = `https://jsonplaceholder.typicode.com/posts/`;
@@ -67,19 +67,26 @@ function App() {
               <div className={classes.root} >
                 <Grid container spacing={3}>
 
+                  {/* left grid that shows post title like navigation */}
                   <Grid item xs={3}>
                     <div className={classes.paper}>
                       <NavList data={allPost} />
                     </div>
                   </Grid>
 
+                    {/* middle grid that shows all post / details */}
                     <Grid item xs={6}>
                     <Switch>
+                      {/* showing all post */}
                       <Route path="/" exact> <div className={classes.paper}> <Home  data={allPost}></Home> </div></Route>
+                      {/* showing a post details and comments */}
                       <Route path="/post/:id" exact><div className={classes.paper}> <PostDetails/> </div></Route>
+                      {/* showing not found page */}
                       <Route path="*"><div className={classes.paper}> <h1>404</h1> <p>Items Not Found</p> </div></Route>
                     </Switch>
                     </Grid>
+
+                  {/* Right side grid that shows friends images */}
                   <Grid item xs={3}>
                     <h4>See More Friends</h4>
                     {
@@ -90,7 +97,7 @@ function App() {
               </div>
             </Container>
           </BrowserRouter>
-          : <div style={{float:'center'}}><CircularProgress/></div>
+          : <div style={{textAlign:'center'}}><CircularProgress/></div>
       }
           
     </div>

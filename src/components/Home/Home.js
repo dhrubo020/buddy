@@ -3,7 +3,7 @@ import AllPost from '../AllPost/AllPost';
 
 
 const Home = (props) => {
-    const allPost = props.data;
+    const allPost = props.data; // from App.js
     return (
         <div>
             {

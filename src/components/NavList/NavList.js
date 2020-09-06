@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const NavList = (props) => {
-    const allPost = props.data
+    const allPost = props.data  // from App.js
     return (
         <div>
             <ol>
