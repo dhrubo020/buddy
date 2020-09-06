@@ -12,7 +12,6 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles({

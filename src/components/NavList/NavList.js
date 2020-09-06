@@ -9,8 +9,8 @@ const NavList = (props) => {
             <ol>
                 {
                     allPost.map(each =>
-                        <Link style={{textDecoration:'none'}} to={`/post/${each.id}`}>
-                            <li style={{margin:'5px 0px', fontSize:'14px'}}>{each.title}</li>
+                        <Link key={each.id} style={{textDecoration:'none'}} to={`/post/${each.id}`}>
+                            <li key={each.id} style={{margin:'5px 0px', fontSize:'14px'}}>{each.title}</li>
                         </Link>
                     )
                 }

@@ -31,9 +31,7 @@ const Comments = (props) => {
     const comments = props.comments;
     const images = props.images;
 
-    images.map( (img, idx) => {
-        comments[idx].image = img.picture.medium;
-    })
+    images.map( (img, idx) => comments[idx].image = img.picture.medium)
 
     const classes = useStyles();
 
@@ -42,7 +40,7 @@ const Comments = (props) => {
             <h4>Comments : {comments.length}</h4>
             {
                 comments.map( each => 
-                    <div style={{flexGrow:'1'}} className={classes.pos}>
+                    <div style={{flexGrow:'1'}} className={classes.pos} key={each.id}> 
                         <Grid container spacing={3}>
                             <Grid item xs={3}>
                                 <img src={each.image} className={classes.img} height="70" alt=""/>

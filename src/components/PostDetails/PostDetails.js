@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { useParams, Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,7 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { IconButton, Container, Grid, Paper } from '@material-ui/core';
+import { IconButton, Container, Grid} from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import Comments from '../Comments/Comments';
@@ -35,9 +35,16 @@ const useStyles = makeStyles({
     },
 });
 
-const PostDetails = (props) => {
-    const { id } = useParams()
-    console.log("details of ", id)
+const PostDetails = () => {
+    let { id } = useParams()
+    
+    //
+    let user = parseInt(id);
+    if(user<1 || user>100){
+        document.location.href = "/NotFound";
+    }
+    //console.log("details of ", id,user)
+
     const [nextId, setNextId] = useState(parseInt(id))
     const [post, setPost] = useState({})
     const [comments, setComments] = useState([])
@@ -48,7 +55,7 @@ const PostDetails = (props) => {
         fetch(comment_url)
             .then(res => res.json())
             .then(data => setComments(data))
-            .catch(err => console.log("comment ", err))
+            .catch(err => console.log(err))
     }, [id])
 
     useEffect(() => {
@@ -56,7 +63,7 @@ const PostDetails = (props) => {
         fetch(post_url)
             .then(res => res.json())
             .then(data => setPost(data))
-            .catch(err => console.log("post details ", err))
+            .catch(err => console.log(err))
     }, [id])
 
     useEffect(() => {
@@ -65,22 +72,42 @@ const PostDetails = (props) => {
         fetch(image_url)
             .then(res => res.json())
             .then(data => setImages(data.results))
-            .catch(err => console.log("image ", err))
-    }, [nextId])
+            .catch(err => console.log(err))
+    }, [id])
 
     const classes = useStyles();
-    const { userId, title, body } = post;
+    const {title, body } = post;
+
+    const nextClick=(clickedId)=>{
+        if(clickedId<100){
+            setNextId(clickedId+1);
+            id=clickedId+1;
+        }else{
+            setNextId(1)
+        }
+    }
+    const previousClick=(clickedId)=>{
+        if(clickedId>1){
+            setNextId(clickedId-1);
+            id=clickedId-1;
+        }else{
+            setNextId(100)
+        }
+    }
+    
+    //console.log("nextid ", nextId, comments.length, images.length);
 
     return (
         <div>
+        
             <Link to={`/post/${nextId}`}>
                 <div style={{ display: 'inline', float: 'left' }}>
-                    <button onClick={() => setNextId(nextId + 1)}><ArrowBackRoundedIcon /></button>
+                    <Button onClick={() => previousClick(nextId)}><ArrowBackRoundedIcon /></Button>
                 </div>
             </Link>
             <Link to={`/post/${nextId}`}>
                 <div style={{ float: 'right' }}>
-                    <button onClick={() => setNextId(nextId + 1)}><ArrowForwardRoundedIcon /></button>
+                    <Button onClick={() => nextClick(nextId)}><ArrowForwardRoundedIcon /></Button>
                 </div>
             </Link>
 
@@ -91,7 +118,7 @@ const PostDetails = (props) => {
                             <Card className={classes.root, classes.pos}>
                                 <CardContent>
                                     <img src="" alt="" />
-                                    <small>@user{userId}</small>
+                                    <small>@user{id}</small>
                                     <Typography variant="h5" component="h2">
                                         {title}
                                     </Typography>
@@ -116,11 +143,14 @@ const PostDetails = (props) => {
 
                                 </CardActions>
                             </Card>
-                            <Comments comments={comments} images={images}></Comments>
+                                {
+                                    comments.length>0?<Comments comments={comments} images={images}></Comments> : <h1>Loading....</h1>
+                                }
                         </Grid>
                     </Grid>
                 </div>
             </Container>
+            
         </div>
     );
 };
